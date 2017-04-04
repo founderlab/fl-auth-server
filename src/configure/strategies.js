@@ -19,9 +19,19 @@ export function configureFacebook(options, strategyOptions) {
     const email = _.get(profile, 'emails[0].value', '')
     if (!email) return callback(new Error(`[fl-auth] FacebookStrategy: No email from Facebook, got profile: ${JSON.stringify(profile)}`))
 
-    User.findOrCreate({email}, (err, user) => {
+    User.findOrCreate({email}, (err, existingUser) => {
       if (err) return callback(err)
-      user.save({facebookId: profile.id, name: profile.displayName, facebookAccessToken: token}, callback)
+
+      const user = existingUser || new User({email})
+      const isNew = !existingUser
+
+      user.save({facebookId: profile.id, facebookAccessToken: token}, err => {
+        if (err) return callback(err)
+        options.facebook.onLogin(user, profile, isNew, err => {
+          if (err) return callback(err)
+          callback(null, user)
+        })
+      })
     })
   }))
 
