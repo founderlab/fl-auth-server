@@ -6,8 +6,7 @@ export default class RegisterStrategy extends LocalStrategy {
 
   verify(req, email, password, callback) {
     const User = this.User
-
-    User.findOne({email}, (err, existingUser) => {
+    User.findOne(this.userQuery(email), (err, existingUser) => {
       if (err) return callback(err)
       if (existingUser) return callback(null, false, 'User already exists')
 

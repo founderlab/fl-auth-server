@@ -10,15 +10,10 @@ export default class LocalStrategy extends Strategy {
     if (verify) this.verify = verify.bind(this)
   }
 
-  isValidEmail(email) {
-    return email && _.isString(email) && email.match(/.+@.+/)
-  }
-
   authenticate(req) {
     const email = (req.body && req.body[this.usernameField]) || (req.query && req.query[this.usernameField])
     const password = (req.body && req.body[this.passwordField]) || (req.query && req.query[this.passwordField])
-
-    if (!this.isValidEmail(email) || !password) return this.fail(this.badRequestMessage)
+    if (!this.isValidUsername(email) || !password) return this.fail(this.badRequestMessage)
 
     this.verify(req, email.trim(), password, (err, user, info) => {
       if (err) return this.error(err)

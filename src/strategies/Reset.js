@@ -23,5 +23,4 @@ export default class ResetStrategy extends LocalStrategy {
 
     })
   }
-
 }

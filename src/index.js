@@ -29,6 +29,8 @@ const defaults = {
 
   },
   login: {
+    userQuery: email => ({email}),
+    isValidUsername: email => email && _.isString(email) && email.match(/.+@.+/),
     usernameField: 'email',
     passwordField: 'password',
     badRequestMessage: 'Missing credentials',
