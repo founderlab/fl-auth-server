@@ -19,9 +19,8 @@ export function configureFacebook(options, strategyOptions) {
     const email = _.get(profile, 'emails[0].value', '')
     if (!email) return callback(new Error(`[fl-auth] FacebookStrategy: No email from Facebook, got profile: ${JSON.stringify(profile)}`))
 
-    User.findOrCreate({email}, (err, existingUser) => {
+    User.findOne({facebookId: profile.id}, (err, existingUser) => {
       if (err) return callback(err)
-
       const user = existingUser || new User({email})
       const isNew = !existingUser
 
@@ -55,7 +54,7 @@ export function configureLinkedIn(options) {
     const email = _.get(profile, 'emails[0].value', '')
     if (!email) return callback(new Error(`[fl-auth] LinkedInStrategy: No email from LinkedIn, got profile: ${JSON.stringify(profile)}`))
 
-    User.findOne({email}, (err, existingUser) => {
+    User.findOne({linkedinId: profile.id}, (err, existingUser) => {
       if (err) return callback(err)
 
       const user = existingUser || new User({email})

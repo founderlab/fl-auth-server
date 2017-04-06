@@ -47,7 +47,7 @@ const defaults = {
   },
 
   setReturnTo: (req, res, next) => {
-    req.session.returnTo = req.query.returnTo || req.headers.referer
+    req.session.returnTo = req.query.returnTo || req.headers.referer || '/'
     req.session.save(err => {
       if (err) console.log('[fl-auth] Error saving session', err)
       next()
@@ -110,7 +110,7 @@ export default function configure(_options={}) {
 
   if (options.facebook) options.facebook = _.merge(oAuthDefaults.facebook, options.facebook)
   if (options.linkedin) options.linkedin = _.merge(oAuthDefaults.linkedin, options.linkedin)
-
+    console.log('paths', options.paths)
   configureMiddleware(options)
   configureSerializing(options)
   configureStrategies(options)
