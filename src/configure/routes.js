@@ -12,7 +12,7 @@ export default function configureRoutes(options={}) {
 
     passport.authenticate('password', (err, user, info) => {
       if (err) return sendError(res, err)
-      if (!user) return res.status(401).json({error: 'Incorrect username or password'})
+      if (!user) return res.status(401).json({error: info})
 
       req.login(user, {}, err => {
         if (err) return sendError(res, err)

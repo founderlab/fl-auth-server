@@ -12,6 +12,9 @@ export default class PasswordStrategy extends LocalStrategy {
         console.log('[fl-auth] email error: user not found', email)
         return callback(null, false, 'User not found')
       }
+      if (user.get('linkedinId') && !user.get('password')) {
+        return callback(null, false, 'Registered by LinkedIn')
+      }
       if (!user.passwordIsValid(password)) {
         return callback(null, false, 'Incorrect password')
       }
