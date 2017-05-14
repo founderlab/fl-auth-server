@@ -5,10 +5,7 @@ export default function sessionOrToken(req, res, next) {
 
   passport.authenticate('bearer', {session: false}, (err, user) => {
     if (err) return res.status(500).send({error: err})
-    if (!user) {
-      if (req.method === 'get') return res.redirect(302, `/login?redirectTo=${req.url}`)
-      return res.status(401).send({error: 'Unauthorized'})
-    }
+    if (!user) return next()
 
     req.login(user, {}, err => {
       if (err) return res.status(500).send({error: err})
