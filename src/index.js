@@ -8,7 +8,7 @@ import createAuthMiddleware from './middleware/authorised'
 import createInternalMiddleware from './middleware/internal'
 import AccessToken from './models/AccessToken'
 import RefreshToken from './models/RefreshToken'
-import {createToken} from './lib'
+import {createToken, findOrCreateAccessToken} from './lib'
 
 const defaults = {
   middleware: {
@@ -52,7 +52,7 @@ const defaults = {
       if (err) console.log('[fl-auth] Error saving session', err)
       next()
     })
-  }
+  },
 }
 
 const oAuthDefaults = {
@@ -110,11 +110,11 @@ export default function configure(_options={}) {
 
   if (options.facebook) options.facebook = _.merge(oAuthDefaults.facebook, options.facebook)
   if (options.linkedin) options.linkedin = _.merge(oAuthDefaults.linkedin, options.linkedin)
-    console.log('paths', options.paths)
+
   configureMiddleware(options)
   configureSerializing(options)
   configureStrategies(options)
   configureRoutes(options)
 }
 
-export {configure, sessionOrToken, createAuthMiddleware, createInternalMiddleware, AccessToken, RefreshToken, createToken}
+export {configure, sessionOrToken, createAuthMiddleware, createInternalMiddleware, AccessToken, RefreshToken, createToken, findOrCreateAccessToken}
