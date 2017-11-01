@@ -16,15 +16,20 @@ export default class RegisterStrategy extends LocalStrategy {
         if (err) return callback(err)
 
         if (user.onCreate) {
-          user.onCreate(err => callback(err, user))
+          user.onCreate(err => {
+            callback(err, user)
+            this.sendConfirmationEmail(user, err => {
+              if (err) console.log('[fl-auth] Error sending confirmation email', err)
+            })
+          })
         }
         else {
           callback(null, user)
+          this.sendConfirmationEmail(user, err => {
+            if (err) console.log('[fl-auth] Error sending confirmation email', err)
+          })
         }
 
-        this.sendConfirmationEmail(user, err => {
-          if (err) console.log('[fl-auth] Error sending confirmation email', err)
-        })
       })
     })
   }
