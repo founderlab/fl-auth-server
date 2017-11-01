@@ -29,9 +29,7 @@ export default class RegisterStrategy extends LocalStrategy {
             if (err) console.log('[fl-auth] Error sending confirmation email', err)
           })
         }
-
       })
     })
   }
-
 }
