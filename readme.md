@@ -1,3 +1,13 @@
+## This package has moved to the [Frameworkstein repository](https://github.com/founderlab/frameworkstein/tree/master/packages/fetch-component-data)
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 # Server side of fl-auth-*, an auth package for FounderLab apps
 
 Usage (server):
